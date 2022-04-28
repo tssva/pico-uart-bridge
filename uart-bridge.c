@@ -30,6 +30,10 @@ typedef struct {
 	void *irq_fn;
 	uint8_t tx_pin;
 	uint8_t rx_pin;
+#ifdef FLOW_CONTROL
+	uint8_t rts_pin;
+	uint8_t cts_pin;
+#endif
 } uart_id_t;
 
 typedef struct {
@@ -54,12 +58,20 @@ const uart_id_t UART_ID[CFG_TUD_CDC] = {
 		.irq_fn = &uart0_irq_fn,
 		.tx_pin = 16,
 		.rx_pin = 17,
+#ifdef FLOW_CONTROL
+		.cts_pin = 2,
+		.rts_pin = 3,
+#endif
 	}, {
 		.inst = uart1,
 		.irq = UART1_IRQ,
 		.irq_fn = &uart1_irq_fn,
 		.tx_pin = 4,
 		.rx_pin = 5,
+#ifdef FLOW_CONTROL
+		.cts_pin = 6,
+		.rts_pin = 7,
+#endif
 	}
 };
 
@@ -261,6 +273,10 @@ void init_uart_data(uint8_t itf)
 	/* Pinmux */
 	gpio_set_function(ui->tx_pin, GPIO_FUNC_UART);
 	gpio_set_function(ui->rx_pin, GPIO_FUNC_UART);
+#ifdef FLOW_CONTROL
+	gpio_set_function(ui->rts_pin, GPIO_FUNC_UART);
+	gpio_set_function(ui->cts_pin, GPIO_FUNC_UART);
+#endif
 
 	/* USB CDC LC */
 	ud->usb_lc.bit_rate = DEF_BIT_RATE;
@@ -285,7 +301,11 @@ void init_uart_data(uint8_t itf)
 
 	/* UART start */
 	uart_init(ui->inst, ud->usb_lc.bit_rate);
+#ifdef FLOW_CONTROL
+	uart_set_hw_flow(ui->inst, true, true);
+#else
 	uart_set_hw_flow(ui->inst, false, false);
+#endif
 	uart_set_format(ui->inst, databits_usb2uart(ud->usb_lc.data_bits),
 			stopbits_usb2uart(ud->usb_lc.stop_bits),
 			parity_usb2uart(ud->usb_lc.parity));
