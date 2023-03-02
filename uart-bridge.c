@@ -59,8 +59,8 @@ const uart_id_t UART_ID[CFG_TUD_CDC] = {
 		.tx_pin = 16,
 		.rx_pin = 17,
 #ifdef FLOW_CONTROL
-		.cts_pin = 2,
-		.rts_pin = 3,
+		.cts_pin = 18,
+		.rts_pin = 19,
 #endif
 	}, {
 		.inst = uart1,

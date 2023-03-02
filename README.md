@@ -15,8 +15,8 @@ Raspberry Pi Pico Pinout
 |:----------------------:|:---------:|
 | GPIO16 (Pin 21)        | UART0 TX  |
 | GPIO17 (Pin 22)        | UART0 RX  |
-| GPIO2 (Pin 4)          | UART0 CTS |
-| GPIO3 (Pin 5)          | UART0 RTS |
+| GPIO18 (Pin 24)        | UART0 CTS |
+| GPIO19 (Pin 25)        | UART0 RTS |
 | GPIO4 (Pin 6)          | UART1 TX  |
 | GPIO5 (Pin 7)          | UART1 RX  |
 | GPIO6 (Pin 9)          | UART1 CTS |
